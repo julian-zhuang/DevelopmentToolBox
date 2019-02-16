@@ -26,7 +26,22 @@
 *.a
 *.lib
 
+#Temporary folder
+tmp/
+
 # Executables
 *.exe
 *.out
 *.app
+*.stash
+*.suo
+*.ilk
+*.pdb
+*.sln
+*.db
+*.user
+*.tlog
+*.log
+*.vcxproj
+*.filters
+*.opendb
