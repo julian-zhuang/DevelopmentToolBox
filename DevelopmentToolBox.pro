@@ -9,4 +9,5 @@ SUBDIRS += \
     Work \
     ChatRoom \
     CharacterEncoding \
-    TSFileTranslation
+    TSFileTranslation \
+    HttpTest
