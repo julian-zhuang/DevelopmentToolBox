@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>erweima.png</file>
+        <file>guanzhu.png</file>
+        <file>guanbi.png</file>
+        <file>jiahao.png</file>
+        <file>xiazai12.png</file>
+        <file>shuaxin.png</file>
+        <file>shishi.png</file>
+        <file>you.png</file>
+        <file>zuo.png</file>
+        <file>jindushibai.png</file>
+        <file>LoadFailed.png</file>
+        <file>timer.png</file>
+    </qresource>
+</RCC>
