@@ -1,4 +1,3 @@
-
 #include "ui_MainWindow.h"
 #include "MainWindow.h"
 #include <QDir>
@@ -14,6 +13,22 @@ void MainWindow::Slot_ToolClicked()
     }
 }
 
+void MainWindow::Slot_Activated(QSystemTrayIcon::ActivationReason reason)
+{
+    if (reason == QSystemTrayIcon::Context){
+
+    }
+    if (reason == QSystemTrayIcon::DoubleClick){
+        this->show();
+    }
+    if (reason == QSystemTrayIcon::Trigger){
+
+    }
+    if (reason == QSystemTrayIcon::MiddleClick){
+
+    }
+}
+
 MainWindow::MainWindow(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MainWindow)
@@ -25,6 +40,10 @@ MainWindow::MainWindow(QWidget *parent) :
     m_Layout->setContentsMargins(0, 0, 0, 0);
     ui->widget_ToolBar_Tools->setLayout(m_Layout);
     m_Layout->addStretch(1);
+    m_SystemTrayIcon = new QSystemTrayIcon(this);
+    m_SystemTrayIcon->setIcon(this->windowIcon());
+    m_SystemTrayIcon->setToolTip(this->windowTitle());
+    connect(m_SystemTrayIcon,SIGNAL(activated(QSystemTrayIcon::ActivationReason)),this,SLOT(Slot_Activated(QSystemTrayIcon::ActivationReason)));
     Init();
 }
 

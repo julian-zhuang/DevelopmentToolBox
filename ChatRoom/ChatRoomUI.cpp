@@ -25,15 +25,18 @@ void ChatRoomUI::Slot_ToolBtnClicked()
         ui->treeWidget_PublicChatMemberList->setVisible(true);
         ui->treeWidget_GroupList->setVisible(false);
         ui->treeWidget_MemberList->setVisible(false);
+        ui->widget_InfoCard->setVisible(false);
     }
     if (sender() == ui->pushButton_Member){
         ui->treeWidget_MemberList->setVisible(true);
         ui->treeWidget_GroupList->setVisible(false);
         ui->treeWidget_PublicChatMemberList->setVisible(false);
+        ui->widget_InfoCard->setVisible(true);
     }
     if (sender() == ui->pushButton_Group){
         ui->treeWidget_GroupList->setVisible(true);
         ui->treeWidget_MemberList->setVisible(false);
         ui->treeWidget_PublicChatMemberList->setVisible(false);
+        ui->widget_InfoCard->setVisible(true);
     }
 }

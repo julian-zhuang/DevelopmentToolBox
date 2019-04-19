@@ -9,6 +9,7 @@
 #include "DevelopmentToolBoxPluginInterface.h"
 #include <QStringList>
 #include <QVBoxLayout>
+#include <QSystemTrayIcon>
 namespace Ui {
 class MainWindow;
 }
@@ -18,6 +19,7 @@ class MainWindow : public QWidget
     Q_OBJECT
 public slots:
     void Slot_ToolClicked();
+    void Slot_Activated(QSystemTrayIcon::ActivationReason reason);
 private:
     struct PluginInfo {
         PluginInfo() {
@@ -51,6 +53,7 @@ private:
     void MainWindowCallBack(std::string DataType, std::shared_ptr<void> Data, int Mode);
     CallBack m_CallBack;
 
+    QSystemTrayIcon *m_SystemTrayIcon;
     Ui::MainWindow *ui;
     QVBoxLayout *m_Layout;
     //已经安装的插件
