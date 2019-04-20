@@ -1,5 +1,6 @@
 #include "ChatRoomUI.h"
 #include "ui_ChatRoomUI.h"
+#include "InfomationCenter.h"
 
 ChatRoomUI::ChatRoomUI(QWidget *parent) :
     QWidget(parent),
@@ -12,6 +13,8 @@ ChatRoomUI::ChatRoomUI(QWidget *parent) :
     connect(ui->pushButton_Member,SIGNAL(clicked()),this,SLOT(Slot_ToolBtnClicked()));
     connect(ui->pushButton_Group,SIGNAL(clicked()),this,SLOT(Slot_ToolBtnClicked()));
     connect(ui->pushButton_PublicChat,SIGNAL(clicked()),this,SLOT(Slot_ToolBtnClicked()));
+
+    InfomationCenter *m = new InfomationCenter;
 }
 
 ChatRoomUI::~ChatRoomUI()

@@ -46,9 +46,6 @@
     </widget>
    </item>
    <item>
-    <widget class="QWebEngineViewEx" name="Web_widget" native="true"/>
-   </item>
-   <item>
     <widget class="QProgressBar" name="Loading_progressBar">
      <property name="maximumSize">
       <size>
@@ -63,6 +60,9 @@
       <bool>false</bool>
      </property>
     </widget>
+   </item>
+   <item>
+    <widget class="QWebEngineViewEx" name="Web_widget" native="true"/>
    </item>
   </layout>
  </widget>

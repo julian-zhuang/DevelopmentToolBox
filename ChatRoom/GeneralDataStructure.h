@@ -30,7 +30,6 @@ enum NetPackageType{
 struct NetPackage{
     unsigned int    OrganizationNumber;
     unsigned char   StartTag;
-    unsigned short  Type;
     QByteArray      Data;
     unsigned char   StartTag;
 };
