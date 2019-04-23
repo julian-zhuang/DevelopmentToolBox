@@ -20,7 +20,7 @@ void WebPageWidget::Slot_LoadFinished(bool ok)
 void WebPageWidget::Slot_LoadProgress(int progress)
 {
     ui->Loading_progressBar->setValue(progress);
-    if(progress == 100){
+    if(progress >= 100){
         ui->Loading_progressBar->setVisible(false);
     }
 }
@@ -81,6 +81,7 @@ WebPageWidget::WebPageWidget(QWidget *parent) :
     ui(new Ui::WebPageWidget)
 {
     ui->setupUi(this);
+    ui->Loading_progressBar->setVisible(false);
     connect(ui->Web_widget,SIGNAL(iconChanged(QIcon)),this,SLOT(Slot_IconChanged(QIcon)));
     connect(ui->Web_widget,SIGNAL(iconUrlChanged(QUrl)),this,SLOT(Slot_IconUrlChanged(QUrl)));
     connect(ui->Web_widget,SIGNAL(loadFinished(bool)),this,SLOT(Slot_LoadFinished(bool)));
@@ -92,6 +93,7 @@ WebPageWidget::WebPageWidget(QWidget *parent) :
 
     connect(ui->Url_widget,SIGNAL(Sig_CollectionStateChange(bool)),this,SLOT(Slot_CollectionStateChange(bool)));
     connect(ui->Url_widget,SIGNAL(Sig_UrlAddressCommit(QUrl)),this,SLOT(Slot_UrlAddressCommit(QUrl)));
+    connect(ui->Url_widget,SIGNAL(Sig_Reload()),this,SLOT(Slot_Reload()));
     connect(ui->Url_widget,SIGNAL(Sig_StopLoad()),this,SLOT(Slot_StopLoad()));
     connect(ui->Url_widget,SIGNAL(Sig_ToLeft()),this,SLOT(Slot_ToLeft()));
     connect(ui->Url_widget,SIGNAL(Sig_ToRight()),this,SLOT(Slot_ToRight()));

@@ -31,10 +31,8 @@ public slots:
     void Slot_IconChanged(const QIcon &icon);
 private:
     int UrlLoadState;
-    QMap<QString,WebPageWidget*> PageUUiD_pPage;
-    QMap<QString,int> PageUUiD_TabIndex;
-    //QMap<int,QString> TabIndex_PageUUID;
-    //QMap<int,WebPageWidget*> TabIndex_pPage;
+    QMap<int, int> TabIndex_PageIndex;
+    QMap<QString, int> PageUUiD_TabIndex;
     Ui::BrowserWidget *ui;
 };
 

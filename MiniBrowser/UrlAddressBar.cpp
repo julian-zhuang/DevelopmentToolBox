@@ -13,6 +13,9 @@ UrlAddressBar::UrlAddressBar(QWidget *parent) :
     loading = new QIcon("://jindushibai.png");
     Collected = new QIcon("://xiazai12.png");
     NotCollected = new QIcon("://guanzhu.png");
+    foreach(QToolButton* var, this->findChildren<QToolButton *>()) {
+        connect(var,SIGNAL(clicked(bool)),this,SLOT(Slot_PusbuttonClicked(bool)));
+    }
 }
 
 UrlAddressBar::~UrlAddressBar()
