@@ -30,6 +30,10 @@ void WorkUI::Slot_TodayTimeUpdata()
     QDateTime NowTime = QDateTime::currentDateTime();
     ui->label_Time_HMS->setText(NowTime.toString("hh:mm:ss"));
     ui->label_Time_YMD->setText(NowTime.toString("yyyy-MM-dd"));
+    if (StartWorkTime[ui->label_Time_YMD->text()] <  QDateTime::fromString(ui->label_Time_YMD->text(),"yyyy-MM-dd").toTime_t()){
+        StartWorkTime[ui->label_Time_YMD->text()] = NowTime.toTime_t();
+    }
+    StopWorkTime[ui->label_Time_YMD->text()] = NowTime.toTime_t();
 }
 
 void WorkUI::Slot_MenuClick(QAction *action)
@@ -104,6 +108,7 @@ WorkUI::WorkUI(QWidget *parent) :
         qDebug() << "Open " << QApplication::applicationDirPath() + "/Work/Work.xml" << " failed";
     }
 
+    QDateTime NowDatetime = QDateTime::currentDateTime();
     QDomDocument XMLInfo;
     QString LogStr;
     if (XMLInfo.setContent(&XmlFile, &LogStr)) {
@@ -139,7 +144,11 @@ WorkUI::WorkUI(QWidget *parent) :
                 QDomNamedNodeMap NodeMap = t_Node.attributes();
                 QString DateStr = NodeMap.namedItem("Date").nodeValue();
                 QString Content = NodeMap.namedItem("Content").nodeValue();
+                unsigned int StartTime_t = QDateTime::fromString(NodeMap.namedItem("Start").nodeValue(),"yyyy-MM-dd hh:mm:ss").toTime_t();
+                unsigned int StopTime_t = QDateTime::fromString(NodeMap.namedItem("Stop").nodeValue(),"yyyy-MM-dd hh:mm:ss").toTime_t();
                 DateStr_LogConnect[DateStr] = Content;
+                StartWorkTime[DateStr] = StartTime_t;
+                StopWorkTime[DateStr] = StopTime_t;
                 t_Node = t_Node.nextSibling();
             }
             QString DateStr = ui->dateTimeEdit->text();
@@ -174,6 +183,8 @@ WorkUI::~WorkUI()
         QDomElement Item = doc.createElement("Item");
         Item.setAttribute("Date",i.key());
         Item.setAttribute("Content",i.value());
+        Item.setAttribute("Start",QDateTime::fromTime_t(StartWorkTime[i.key()]).toString("yyyy-MM-dd hh:mm:ss"));
+        Item.setAttribute("Stop",QDateTime::fromTime_t(StopWorkTime[i.key()]).toString("yyyy-MM-dd hh:mm:ss"));
         LogNode.appendChild(Item);
     }
     RootNode.appendChild(LogNode);

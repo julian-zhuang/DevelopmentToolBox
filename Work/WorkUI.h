@@ -30,8 +30,10 @@ private slots:
 public:
     explicit WorkUI(QWidget *parent = 0);
     ~WorkUI();
+
 protected:
     bool eventFilter(QObject *watched, QEvent *event);
+
 private:
     Ui::WorkUI *ui;
 
@@ -46,6 +48,9 @@ private:
     QMap<QWidget *, QString> Toolbtn_FileIcon;
     QMap<QString, QString> DateStr_LogConnect;
     QTimer m_TodayTimeUpdata;
+
+    QMap<QString, unsigned int> StartWorkTime;
+    QMap<QString, unsigned int> StopWorkTime;
 private:
     QDomNode FindNode(QDomNode &Node,QString NodeName);
 };
