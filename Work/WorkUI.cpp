@@ -10,13 +10,13 @@ void WorkUI::Slot_ButtonClicked()
     if (t_pBtn == ui->pushButton_DayRight) {
         ui->dateTimeEdit->setDateTime(ui->dateTimeEdit->dateTime().addDays(1));
         QString TimeStr = ui->dateTimeEdit->dateTime().toString("yyyy-MM-dd");
-        ui->textEdit->setHtml(DateStr_LogConnect[TimeStr]);
+        ui->textEdit->setPlainText(DateStr_LogConnect[TimeStr]);
         return;
     }
     if (t_pBtn == ui->pushButton_DayLeft) {
         ui->dateTimeEdit->setDateTime(ui->dateTimeEdit->dateTime().addDays(-1));
         QString TimeStr = ui->dateTimeEdit->dateTime().toString("yyyy-MM-dd");
-        ui->textEdit->setHtml(DateStr_LogConnect[TimeStr]);
+        ui->textEdit->setPlainText(DateStr_LogConnect[TimeStr]);
         return;
     }
     if (Toolbtn_FilePath.find(t_pBtn) != Toolbtn_FilePath.end()) {
@@ -67,7 +67,7 @@ void WorkUI::Slot_ShowMenu(const QPoint &pos)
 void WorkUI::Slot_TextChange()
 {
     QString TimeStr = ui->dateTimeEdit->dateTime().toString("yyyy-MM-dd");
-    DateStr_LogConnect[TimeStr] = ui->textEdit->toHtml();
+    DateStr_LogConnect[TimeStr] = ui->textEdit->toPlainText();
 }
 
 WorkUI::WorkUI(QWidget *parent) :

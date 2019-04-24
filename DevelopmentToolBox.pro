@@ -10,4 +10,5 @@ SUBDIRS += \
     ChatRoom \
     CharacterEncoding \
     TSFileTranslation \
-    HttpTest
+    HttpTest \
+    RaspberryPiGPIO
