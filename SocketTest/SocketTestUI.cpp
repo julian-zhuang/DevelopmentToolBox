@@ -1136,7 +1136,7 @@ int SocketTestUI::GetByteOrder(QTreeWidget *TreeWidget, QString ByteOrderName, Q
             char Boolvalue = (*it)->text(3).toUInt();
             Des.append(Boolvalue);
         }else if (DataType == "Int8"){
-            char Value = (*it)->text(3).at(0).toLatin1();
+            char Value = (*it)->text(3).toInt();
             Des.append((char *)&Value, 1);
         }else if (DataType == "Int16"){
             short Value = (*it)->text(3).toShort();
@@ -1196,7 +1196,7 @@ int SocketTestUI::GetByteOrder(QTreeWidget *TreeWidget, QString ByteOrderName, Q
                 }
             }
         }else if (DataType == "UInt8"){
-            unsigned char Value = (*it)->text(3).at(0).combiningClass();
+            unsigned char Value = (*it)->text(3).toUInt();
             Des.append((char *)&Value, 1);
         }else if (DataType == "UInt16"){
             unsigned short Value = (*it)->text(3).toShort();

@@ -4,10 +4,32 @@
 #
 #-------------------------------------------------
 
-QT       += widgets network
+QT       += gui widgets network
 
-TARGET = RaspberryPiGPIO
 TEMPLATE = lib
+
+DESTDIR = $$PWD/../bin/Plugins
+
+TRANSLATIONS+=$$PWD/../bin/Lang/RaspberryPiGPIO_zh.ts
+
+INCLUDEPATH += $$PWD/../include
+CONFIG += debug_and_release
+CONFIG += c++11
+
+CONFIG(debug,debug|release){
+    TARGET = RaspberryPiGPIOd
+    UI_DIR  = $$PWD/../tmp/$${TARGET}
+    RCC_DIR  = $$PWD/../tmp/$${TARGET}
+    MOC_DIR  = $$PWD/../tmp/$${TARGET}
+    RCC_DIR  = $$PWD/../tmp/$${TARGET}
+}
+CONFIG(release,debug|release){
+    TARGET = RaspberryPiGPIO
+    UI_DIR  = $$PWD/../tmp/$${TARGET}
+    RCC_DIR  = $$PWD/../tmp/$${TARGET}
+    MOC_DIR  = $$PWD/../tmp/$${TARGET}
+    RCC_DIR  = $$PWD/../tmp/$${TARGET}
+}
 
 DEFINES += RASPBERRYPIGPIO_LIBRARY
 

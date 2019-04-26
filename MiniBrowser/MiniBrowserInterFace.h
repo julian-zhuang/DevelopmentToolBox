@@ -1,8 +1,10 @@
 #ifndef MiniBrowserInterFace_H
 #define MiniBrowserInterFace_H
 
+#include <QObject>
 #include <QtCore/qglobal.h>
 #include <DevelopmentToolBoxPluginInterface.h>
+
 #if defined(WEBWECHAT_LIBRARY)
 #  define WEBWECHATSHARED_EXPORT Q_DECL_EXPORT
 #else
