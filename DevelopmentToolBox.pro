@@ -11,4 +11,5 @@ SUBDIRS += \
     CharacterEncoding \
     TSFileTranslation \
     HttpTest \
-    RaspberryPiGPIO
+    RaspberryPiGPIO \
+    Terminal

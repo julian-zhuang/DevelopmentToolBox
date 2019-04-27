@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += widgets sql
+QT       += gui widgets sql
 
 TEMPLATE = lib
 
