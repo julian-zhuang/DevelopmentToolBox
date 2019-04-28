@@ -171,6 +171,7 @@ void MainWindow::Init()
         ui->stackedWidget->addWidget(t_Widget);
         Tool = new QToolButton(this);
         Tool->setObjectName(t_pInfo->ID);
+        Tool->setToolTip(t_pInfo->Description);
         Tool->setText(t_pInfo->Name);
         Tool->setMinimumSize(QSize(150,35));
         Tool->setMaximumSize(QSize(150,35));
