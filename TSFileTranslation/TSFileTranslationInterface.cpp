@@ -1,5 +1,4 @@
 #include "TSFileTranslationInterface.h"
-#include <TSFileTranslationUI.h>
 #include <QDir>
 #include "mainwindow.h"
 void TSFileTranslationInterface::GetPluginInfo(QString &ID, PluginType &Type, QString &Name, QString &Description)
@@ -18,7 +17,9 @@ int TSFileTranslationInterface::PluginConfigure(ConfigureAction Action, void **p
         return 0;
     }
     if (Action == ConfigureAction::Uinit){
-        delete (MainWindow*)m_Widget;;
+        if (m_Widget != nullptr){
+            PluginConfigure(ConfigureAction::DestroyWidget);
+        }
         return 0;
     }
     if (Action == ConfigureAction::SetCallback){
@@ -35,6 +36,7 @@ int TSFileTranslationInterface::PluginConfigure(ConfigureAction Action, void **p
     }
     if (Action == ConfigureAction::DestroyWidget){
         delete (MainWindow*)m_Widget;
+        m_Widget = nullptr;
         return 0;
     }
 }

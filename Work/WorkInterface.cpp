@@ -19,7 +19,9 @@ int WorkInterface::PluginConfigure(ConfigureAction Action, void **ptr)
         return 0;
     }
     if (Action == ConfigureAction::Uinit){
-        delete (WorkUI *)m_Widget;
+        if (m_Widget != nullptr){
+            PluginConfigure(ConfigureAction::DestroyWidget);
+        }
         return 0;
     }
     if (Action == ConfigureAction::SetCallback){
@@ -37,6 +39,7 @@ int WorkInterface::PluginConfigure(ConfigureAction Action, void **ptr)
     }
     if (Action == ConfigureAction::DestroyWidget){
         delete (WorkUI*)m_Widget;
+        m_Widget = nullptr;
         return 0;
     }
 }

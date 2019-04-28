@@ -19,8 +19,9 @@ int SocketTestInterface::PluginConfigure(ConfigureAction Action, void **ptr)
         return 0;
     }
     if (Action == ConfigureAction::Uinit){
-        SocketTestUI* t_SocketTestUI = (SocketTestUI*)m_Widget;
-        delete t_SocketTestUI;
+        if (m_Widget != nullptr){
+            PluginConfigure(ConfigureAction::DestroyWidget);
+        }
         return 0;
     }
     if (Action == ConfigureAction::SetCallback){
@@ -37,6 +38,7 @@ int SocketTestInterface::PluginConfigure(ConfigureAction Action, void **ptr)
     }
     if (Action == ConfigureAction::DestroyWidget){
         delete (SocketTestUI*)m_Widget;
+        m_Widget = nullptr;
         return 0;
     }
 }

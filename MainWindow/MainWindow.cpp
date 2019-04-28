@@ -49,6 +49,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    foreach (auto var, m_PluginIDIndex) {
+        if (var->Type == PluginType::Gui){
+            var->PluginPointer->PluginConfigure(ConfigureAction::DestroyWidget);
+        }
+        var->PluginPointer->PluginConfigure(ConfigureAction::Uinit);
+    }
     delete ui;
 }
 

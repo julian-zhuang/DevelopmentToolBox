@@ -19,7 +19,9 @@ int CharacterEncodingInterface::PluginConfigure(ConfigureAction Action, void **p
         return 1;
     }
     if (Action == ConfigureAction::Uinit){
-
+        if (m_Widget != nullptr){
+            PluginConfigure(ConfigureAction::DestroyWidget);
+        }
         return 0;
     }
     if (Action == ConfigureAction::SetCallback){

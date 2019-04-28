@@ -19,7 +19,9 @@ int RaspberryPiGPIOInterface::PluginConfigure(ConfigureAction Action, void **ptr
         return 0;
     }
     if (Action == ConfigureAction::Uinit){
-
+        if (m_Widget != nullptr){
+            PluginConfigure(ConfigureAction::DestroyWidget);
+        }
         return 0;
     }
     if (Action == ConfigureAction::SetCallback){

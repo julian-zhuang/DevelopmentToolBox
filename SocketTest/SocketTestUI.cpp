@@ -1546,7 +1546,7 @@ SocketTestUI::SocketTestUI(QWidget *parent) : QWidget(parent), ui(new Ui::Socket
     t_CustomDelegate->SetReadOnlyMode();
     ui->treeWidget_Server_ByteOrder->setItemDelegate(t_CustomDelegate);
 
-    QFile XmlFile(QApplication::applicationDirPath() + "/SokcetTest/Protocol.xml");
+    QFile XmlFile(QApplication::applicationDirPath() + "/SocketTest/Protocol.xml");
     if (!XmlFile.open(QFile::Text | QFile::ReadOnly)) {
         qDebug() << "Open " << QApplication::applicationDirPath() + "/SocketTest/Protocol.xml" << " failed";
     }
@@ -1722,7 +1722,7 @@ SocketTestUI::~SocketTestUI()
         ByteOrderNode.setAttribute("Length", ByteOrderLength);
     }
 
-    QFile file(QApplication::applicationDirPath() + "/SokcetTest/Protocol.xml");
+    QFile file(QApplication::applicationDirPath() + "/SocketTest/Protocol.xml");
     if (file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
         QTextStream out(&file);
         out.setCodec("utf-8");
