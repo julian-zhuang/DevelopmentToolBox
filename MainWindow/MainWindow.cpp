@@ -90,7 +90,7 @@ int MainWindow::InstallPlugin(QString FilePath)
         if (DllPointer->PluginConfigure(ConfigureAction::GetCallback,(void **)&p_Callback) < 0){
             PluginLoader->unload();
             delete PluginLoader;
-            return -4;
+            return -5;
         }
 
         PluginInfo *t_PluginInfo = new PluginInfo;
