@@ -6,26 +6,25 @@
 
 QT       += gui widgets sql
 
-TARGET = Terminal
 TEMPLATE = lib
 
 DESTDIR = $$PWD/../bin/Plugins
 
-TRANSLATIONS+=$$PWD/../bin/Lang/SearchFile_zh.ts
+TRANSLATIONS+=$$PWD/../bin/Lang/Terminal_zh.ts
 
 INCLUDEPATH += $$PWD/../include
 CONFIG += debug_and_release
 CONFIG += c++11
 
 CONFIG(debug,debug|release){
-    TARGET = SearchFiled
+    TARGET = Terminald
     UI_DIR  = $$PWD/../tmp/$${TARGET}
     RCC_DIR  = $$PWD/../tmp/$${TARGET}
     MOC_DIR  = $$PWD/../tmp/$${TARGET}
     RCC_DIR  = $$PWD/../tmp/$${TARGET}
 }
 CONFIG(release,debug|release){
-    TARGET = SearchFile
+    TARGET = Terminal
     UI_DIR  = $$PWD/../tmp/$${TARGET}
     RCC_DIR  = $$PWD/../tmp/$${TARGET}
     MOC_DIR  = $$PWD/../tmp/$${TARGET}
