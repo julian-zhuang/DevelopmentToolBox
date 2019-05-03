@@ -52,5 +52,6 @@
         <file>images/win/undo.png</file>
         <file>images/win/validateplacemarkers.png</file>
         <file>images/win/whatsthis.png</file>
+        <file>images/splash.png</file>
     </qresource>
 </RCC>

@@ -20,6 +20,8 @@ INCLUDEPATH += $$PWD/../include
 CONFIG += debug_and_release
 CONFIG += c++11
 
+LIBS += -L$$PWD/../bin -lcurl
+
 CONFIG(debug,debug|release){
     TARGET = TSFileTranslationd
     UI_DIR  = $$PWD/../tmp/$${TARGET}
@@ -58,7 +60,8 @@ SOURCES += TSFileTranslationInterface.cpp \
     statistics.cpp \
     translatedialog.cpp \
     translationsettingsdialog.cpp \
-    shared/simtexth.cpp
+    shared/simtexth.cpp \
+    TranslationAPI.cpp
 
 HEADERS += TSFileTranslationInterface.h \
     batchtranslationdialog.h \
@@ -81,7 +84,8 @@ HEADERS += TSFileTranslationInterface.h \
     statistics.h \
     translatedialog.h \
     translationsettingsdialog.h \
-    shared/simtexth.h
+    shared/simtexth.h \
+    TranslationAPI.h
 
 unix {
     target.path = /usr/lib
@@ -95,6 +99,7 @@ FORMS += \
     translatedialog.ui \
     mainwindow.ui \
     translationsettings.ui \
-    finddialog.ui
+    finddialog.ui \
+    TranslationAPI.ui
 
 RESOURCES += linguist.qrc
