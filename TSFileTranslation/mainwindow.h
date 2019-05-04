@@ -33,7 +33,7 @@
 #include "ui_mainwindow.h"
 #include "recentfiles.h"
 #include "messagemodel.h"
-
+#include "TranslationAPI.h"
 #include <QtCore/QHash>
 #include <QtCore/QLocale>
 
@@ -158,6 +158,8 @@ private slots:
     void updatePhraseDicts();
     void updatePhraseDict(int model);
 
+    void Slot_translationAPISetting(bool checked);
+
 private:
     QModelIndex nextContext(const QModelIndex &index) const;
     QModelIndex prevContext(const QModelIndex &index) const;
@@ -197,6 +199,8 @@ private:
 
     bool searchItem(DataModel::FindLocation where, const QString &searchWhat);
 
+    bool EnabledTranslationAPI;
+    TranslationAPI m_TranslationAPIWidget;
     QProcess *m_assistantProcess;
     QTreeView *m_contextView;
     QTreeView *m_messageView;

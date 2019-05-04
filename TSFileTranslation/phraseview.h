@@ -93,6 +93,7 @@ public:
     ~PhraseView();
     void setSourceText(int model, const QString &sourceText);
     void SetTranslateAPI(TranslateAPIProvider Provider, std::string Url,std::string APIID,std::string Key,std::string FromLan, std::string ToLan);
+    void SetTranslateAPIEnable(bool Enable);
 
 public slots:
     void toggleGuessing();
@@ -125,6 +126,7 @@ private:
     int m_modelIndex;
     bool m_doGuesses;
 
+    bool m_EnableTranslateAPI;
     TranslateAPIProvider Provider;
     std::string Url;
     std::string APIID;
@@ -132,7 +134,6 @@ private:
     std::string FromLan;
     std::string ToLan;
 
-    bool IsSetAPi;
     CURL *pCurl;
 };
 

@@ -84,7 +84,7 @@
 #include <QTranslator>
 
 #include <ctype.h>
-
+#include <QSettings>
 QT_BEGIN_NAMESPACE
 
 static const int MessageMS = 2500;
@@ -495,6 +495,9 @@ MainWindow::MainWindow(QWidget *parent)
     m_sourceAndFormView->installEventFilter(m_focusWatcher);
     m_phraseView->installEventFilter(m_focusWatcher);
     m_errorsView->installEventFilter(m_focusWatcher);
+
+    EnabledTranslationAPI = false;
+    m_phraseView->SetTranslateAPIEnable(EnabledTranslationAPI);
 }
 
 MainWindow::~MainWindow()
@@ -1848,6 +1851,7 @@ void MainWindow::setupMenuBar()
 
     // Edit menu
     connect(m_ui.menuEdit, SIGNAL(aboutToShow()), SLOT(editAboutToShow()));
+    connect(m_ui.actionNetwork_translation_API_Setting,SIGNAL(triggered(bool)),this,SLOT(Slot_translationAPISetting(bool)));
 
     connect(m_ui.actionUndo, SIGNAL(triggered()), m_messageEditor, SLOT(undo()));
     connect(m_messageEditor, SIGNAL(undoAvailable(bool)), m_ui.actionUndo, SLOT(setEnabled(bool)));
@@ -2363,6 +2367,22 @@ void MainWindow::updatePhraseDict(int model)
     m_phraseView->update();
 }
 
+void MainWindow::Slot_translationAPISetting(bool checked)
+{
+    m_TranslationAPIWidget.Init();
+    m_TranslationAPIWidget.exec();
+    if (m_TranslationAPIWidget.IsAccepted == true){
+        m_phraseView->SetTranslateAPI(TranslateAPIProvider::Baidu,
+        m_TranslationAPIWidget.Url.toStdString(),
+        m_TranslationAPIWidget.APIID.toStdString(),
+        m_TranslationAPIWidget.APIKey.toStdString(),
+        m_TranslationAPIWidget.FromLan.toStdString(),
+        m_TranslationAPIWidget.ToLan.toStdString()
+        );
+        m_phraseView->SetTranslateAPIEnable(m_TranslationAPIWidget.EnableAPI);
+    }
+}
+
 void MainWindow::updatePhraseDicts()
 {
     for (int i = 0; i < m_phraseDict.size(); ++i)
@@ -2558,27 +2578,26 @@ void MainWindow::updateDanger(const MultiDataIndex &index, bool verbose)
 
 void MainWindow::readConfig()
 {
-    QSettings config;
+    QSettings TranslationAPIInfo("./TSFileTranslation/TranslationAPIInfo.ini",QSettings::IniFormat);
+    TranslationAPIInfo.beginGroup("API");
+    EnabledTranslationAPI = TranslationAPIInfo.value("Enable").toBool();
+    m_TranslationAPIWidget.Url = TranslationAPIInfo.value("Url").toString();
+    m_TranslationAPIWidget.APIID = TranslationAPIInfo.value("ApiID").toString();
+    m_TranslationAPIWidget.APIKey = TranslationAPIInfo.value("APIKey").toString();
+    m_TranslationAPIWidget.FromLan = TranslationAPIInfo.value("From").toString();
+    m_TranslationAPIWidget.ToLan = TranslationAPIInfo.value("To").toString();
 
+    QSettings config;
     QRect r(pos(), size());
     restoreGeometry(config.value(settingPath("Geometry/WindowGeometry")).toByteArray());
     restoreState(config.value(settingPath("MainWindowState")).toByteArray());
-
-    m_ui.actionAccelerators->setChecked(
-        config.value(settingPath("Validators/Accelerator"), true).toBool());
-    m_ui.actionEndingPunctuation->setChecked(
-        config.value(settingPath("Validators/EndingPunctuation"), true).toBool());
-    m_ui.actionPhraseMatches->setChecked(
-        config.value(settingPath("Validators/PhraseMatch"), true).toBool());
-    m_ui.actionPlaceMarkerMatches->setChecked(
-        config.value(settingPath("Validators/PlaceMarkers"), true).toBool());
-    m_ui.actionLengthVariants->setChecked(
-        config.value(settingPath("Options/LengthVariants"), false).toBool());
-    m_ui.actionVisualizeWhitespace->setChecked(
-        config.value(settingPath("Options/VisualizeWhitespace"), true).toBool());
-
-    m_messageEditor->setFontSize(
-                config.value(settingPath("Options/EditorFontsize"), font().pointSize()).toReal());
+    m_ui.actionAccelerators->setChecked(config.value(settingPath("Validators/Accelerator"), true).toBool());
+    m_ui.actionEndingPunctuation->setChecked(config.value(settingPath("Validators/EndingPunctuation"), true).toBool());
+    m_ui.actionPhraseMatches->setChecked(config.value(settingPath("Validators/PhraseMatch"), true).toBool());
+    m_ui.actionPlaceMarkerMatches->setChecked(config.value(settingPath("Validators/PlaceMarkers"), true).toBool());
+    m_ui.actionLengthVariants->setChecked(config.value(settingPath("Options/LengthVariants"), false).toBool());
+    m_ui.actionVisualizeWhitespace->setChecked(config.value(settingPath("Options/VisualizeWhitespace"), true).toBool());
+    m_messageEditor->setFontSize(config.value(settingPath("Options/EditorFontsize"), font().pointSize()).toReal());
 
     recentFiles().readConfig();
 
@@ -2592,23 +2611,25 @@ void MainWindow::readConfig()
 
 void MainWindow::writeConfig()
 {
+    QSettings TranslationAPIInfo("./TSFileTranslation/TranslationAPIInfo.ini",QSettings::IniFormat);
+    TranslationAPIInfo.beginGroup("API");
+    TranslationAPIInfo.setValue("Enable",EnabledTranslationAPI);
+    TranslationAPIInfo.setValue("Url",m_TranslationAPIWidget.Url);
+    TranslationAPIInfo.setValue("ApiID",m_TranslationAPIWidget.APIID);
+    TranslationAPIInfo.setValue("APIKey",m_TranslationAPIWidget.APIKey);
+    TranslationAPIInfo.setValue("From",m_TranslationAPIWidget.FromLan);
+    TranslationAPIInfo.setValue("To",m_TranslationAPIWidget.ToLan);
+    TranslationAPIInfo.endGroup();
+
     QSettings config;
-    config.setValue(settingPath("Geometry/WindowGeometry"),
-        saveGeometry());
-    config.setValue(settingPath("Validators/Accelerator"),
-        m_ui.actionAccelerators->isChecked());
-    config.setValue(settingPath("Validators/EndingPunctuation"),
-        m_ui.actionEndingPunctuation->isChecked());
-    config.setValue(settingPath("Validators/PhraseMatch"),
-        m_ui.actionPhraseMatches->isChecked());
-    config.setValue(settingPath("Validators/PlaceMarkers"),
-        m_ui.actionPlaceMarkerMatches->isChecked());
-    config.setValue(settingPath("Options/LengthVariants"),
-        m_ui.actionLengthVariants->isChecked());
-    config.setValue(settingPath("Options/VisualizeWhitespace"),
-        m_ui.actionVisualizeWhitespace->isChecked());
-    config.setValue(settingPath("MainWindowState"),
-        saveState());
+    config.setValue(settingPath("Geometry/WindowGeometry"), saveGeometry());
+    config.setValue(settingPath("Validators/Accelerator"), m_ui.actionAccelerators->isChecked());
+    config.setValue(settingPath("Validators/EndingPunctuation"), m_ui.actionEndingPunctuation->isChecked());
+    config.setValue(settingPath("Validators/PhraseMatch"),  m_ui.actionPhraseMatches->isChecked());
+    config.setValue(settingPath("Validators/PlaceMarkers"), m_ui.actionPlaceMarkerMatches->isChecked());
+    config.setValue(settingPath("Options/LengthVariants"), m_ui.actionLengthVariants->isChecked());
+    config.setValue(settingPath("Options/VisualizeWhitespace"), m_ui.actionVisualizeWhitespace->isChecked());
+    config.setValue(settingPath("MainWindowState"), saveState());
     recentFiles().writeConfig();
 
     config.setValue(settingPath("Options/EditorFontsize"), m_messageEditor->fontSize());

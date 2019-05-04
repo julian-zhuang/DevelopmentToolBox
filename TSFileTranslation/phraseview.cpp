@@ -88,7 +88,7 @@ PhraseView::PhraseView(MultiDataModel *model, QList<QHash<QString, QList<Phrase 
     FromLan = "en";
     ToLan = "zh";
 
-    IsSetAPi = false;
+    m_EnableTranslateAPI = false;
     pCurl = nullptr;
     pCurl = curl_easy_init();
     if (pCurl != nullptr){
@@ -237,7 +237,7 @@ void PhraseView::setSourceText(int model, const QString &sourceText)
 
         QString Src = sourceText;
         QString Tag ="";
-        if (Translate(Src,Tag) == 0){
+        if (m_EnableTranslateAPI == true && Translate(Src,Tag) == 0){
             Candidate kl;
             kl.source = Src;
             kl.target = Tag;
@@ -277,6 +277,11 @@ void PhraseView::SetTranslateAPI(TranslateAPIProvider Provider, std::__cxx11::st
     this->APIKey = Key;
     this->FromLan = FromLan;
     this->ToLan = ToLan;
+}
+
+void PhraseView::SetTranslateAPIEnable(bool Enable)
+{
+    m_EnableTranslateAPI = Enable;
 }
 
 QList<Phrase *> PhraseView::getPhrases(int model, const QString &source)

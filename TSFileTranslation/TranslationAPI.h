@@ -15,8 +15,21 @@ public:
     explicit TranslationAPI(QWidget *parent = 0);
     ~TranslationAPI();
 
+private slots:
+    void Slot_accepted();
+    void Slot_rejected();
 public:
+    void Init();
+    bool EnableAPI;
+    QString Url;
+    QString APIID;
+    QString APIKey;
+    QString FromLan;
+    QString ToLan;
+    bool IsAccepted;
+private:
     Ui::TranslationAPI *ui;
+
 };
 
 #endif // TRANSLATIONAPI_H
