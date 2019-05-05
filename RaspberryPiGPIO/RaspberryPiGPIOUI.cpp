@@ -14,7 +14,7 @@ RaspberryPiGPIOUI::RaspberryPiGPIOUI(QWidget *parent) :
     Board_WiringPI[7] = 7;
     Board_WiringPI[11] = 0;
     Board_WiringPI[13] = 2;
-    Board_WiringPI[15] = 15;
+    Board_WiringPI[15] = 3;
     Board_WiringPI[19] = 12;
     Board_WiringPI[21] = 13;
     Board_WiringPI[23] = 14;
@@ -36,7 +36,7 @@ RaspberryPiGPIOUI::RaspberryPiGPIOUI(QWidget *parent) :
     Board_WiringPI[28] = 31;
     Board_WiringPI[32] = 26;
     Board_WiringPI[36] = 27;
-    Board_WiringPI[28] = 28;
+    Board_WiringPI[38] = 28;
     Board_WiringPI[40] = 29;
 
     for (auto i = Board_WiringPI.begin(); i != Board_WiringPI.end(); ++i){
@@ -50,6 +50,7 @@ RaspberryPiGPIOUI::RaspberryPiGPIOUI(QWidget *parent) :
     connect(&TCPSocket,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(Slot_Error(QAbstractSocket::SocketError)));
     connect(&TCPSocket,SIGNAL(readyRead()),this,SLOT(Slot_ReadyRead()));
     connect(ui->pushButton_connect,SIGNAL(clicked()),this,SLOT(Slto_Clicked()));
+    connect(&CommandTimer,SIGNAL(timeout()),this,SLOT(Slot_TimeOut()));
     for (int i = 1 ; i <= 40 ; i++){
         QRadioButton *RadioBtn_HIG = this->findChild<QRadioButton*>("radioBtn_HIG_" + QString::number(i));
         QRadioButton *RadioBtn_LOW = this->findChild<QRadioButton*>("radioBtn_LOW_" + QString::number(i));
@@ -131,42 +132,46 @@ void RaspberryPiGPIOUI::Slot_RecvData()
 
 void RaspberryPiGPIOUI::Slot_ButtonToggled(QAbstractButton *button, bool checked)
 {
-    QByteArray WaitSendData;
-    WaitSendData.clear();
+    if (checked == false){
+        return;
+    }
     QString ObjName = button->objectName();
     QStringList StrList = ObjName.split("_");
+    CommandTimer.start(20);
+    QByteArray WaitSendData;
+    WaitSendData.clear();
     if (StrList[1] == "IN"){
-        qDebug() << StrList << checked;
         char IO = StrList[2].toInt();
         IO = Board_WiringPI[IO];
         char Mode = 100;
+        qDebug() <<  ObjName << QString::number(IO) << checked;
         WaitSendData.append(0x20);
         WaitSendData.append(IO);
         WaitSendData.append(Mode);
     }
     if (StrList[1] == "OUT"){
-        qDebug() << StrList << checked;
         char IO = StrList[2].toInt();
         IO = Board_WiringPI[IO];
         char Mode = -100;
+        qDebug() << ObjName << QString::number(IO) << checked;
         WaitSendData.append(0x20);
         WaitSendData.append(IO);
         WaitSendData.append(Mode);
     }
     if (StrList[1] == "HIG"){
-        qDebug() << StrList << checked;
         char IO = StrList[2].toInt();
         IO = Board_WiringPI[IO];
         char Val = 100;
+        qDebug() <<  ObjName << QString::number(IO) << checked;
         WaitSendData.append(0x30);
         WaitSendData.append(IO);
         WaitSendData.append(Val);
     }
     if (StrList[1] == "LOW"){
-        qDebug() << StrList << checked;
         char IO = StrList[2].toInt();
         IO = Board_WiringPI[IO];
         char Val = -100;
+        qDebug() <<  ObjName << QString::number(IO) << checked;
         WaitSendData.append(0x30);
         WaitSendData.append(IO);
         WaitSendData.append(Val);
@@ -226,4 +231,9 @@ void RaspberryPiGPIOUI::Slot_ReadyRead()
     QByteArray Data = TCPSocket.readAll();
     RecvedData.append(Data);
     emit Sig_RecvData();
+}
+
+void RaspberryPiGPIOUI::Slot_TimeOut()
+{
+    SendCommand = false;
 }

@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QTcpSocket>
 #include <QAbstractButton>
+#include <QTimer>
 namespace Ui {
 class RaspberryPiGPIOUI;
 }
@@ -28,6 +29,7 @@ private slots:
     void Slot_Disconnected();
     void Slot_Error(QAbstractSocket::SocketError socketError);
     void Slot_ReadyRead();
+    void Slot_TimeOut();
 private:
     QMap<QString, QString> ObjName_Text;
 
@@ -38,6 +40,8 @@ private:
     Ui::RaspberryPiGPIOUI *ui;
     QMap<char,char> Board_WiringPI;
     QMap<char,char> WiringPI_Board;
+    bool SendCommand;
+    QTimer CommandTimer;
 };
 
 #endif // RASPBERRYPIGPIOUI_H
