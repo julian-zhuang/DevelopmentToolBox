@@ -6353,7 +6353,7 @@ color: rgb(0, 0, 0);</string>
         </size>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="tab_2">
         <attribute name="title">
@@ -6442,7 +6442,7 @@ color: rgb(0, 0, 0);</string>
               </sizepolicy>
              </property>
              <property name="text">
-              <string>192.168.10.4</string>
+              <string/>
              </property>
             </widget>
            </item>
@@ -6485,7 +6485,7 @@ color: rgb(0, 0, 0);</string>
            <item>
             <widget class="QLineEdit" name="lineEdit_Username">
              <property name="text">
-              <string>admin</string>
+              <string/>
              </property>
             </widget>
            </item>
@@ -6509,7 +6509,7 @@ color: rgb(0, 0, 0);</string>
            <item>
             <widget class="QLineEdit" name="lineEdit_Password">
              <property name="text">
-              <string>admin</string>
+              <string/>
              </property>
             </widget>
            </item>

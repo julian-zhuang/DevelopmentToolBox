@@ -3,6 +3,8 @@
 #include <QDebug>
 #include <QHostAddress>
 #include <QStringList>
+#include <QSettings>
+#include <QLineEdit>
 
 RaspberryPiGPIOUI::RaspberryPiGPIOUI(QWidget *parent) :
     QWidget(parent),
@@ -73,10 +75,47 @@ RaspberryPiGPIOUI::RaspberryPiGPIOUI(QWidget *parent) :
             connect(LineEdit,SIGNAL(textChanged(QString)),this,SLOT(Slot_TextChanged(QString)));
         }
     }
+
+    QSettings Setting("./RaspberryPiGPIO/GPIO_Note.ini",QSettings::IniFormat);
+    Setting.beginGroup("GPIO_Note");
+    foreach(auto var,this->findChildren<QLineEdit *>()){
+        var->setText(Setting.value(var->objectName()).toString());
+    }
+    Setting.endGroup();
+    Setting.beginGroup("GPIO_Mode");
+    foreach(auto var,this->findChildren<QRadioButton *>()){
+        if (var->objectName().contains("OUT") || var->objectName().contains("HIG")){
+            var->setChecked(Setting.value(var->objectName()).toBool());
+        }
+    }
+    Setting.endGroup();
+    Setting.beginGroup("GPIO_Level");
+    foreach(auto var,this->findChildren<QRadioButton *>()){
+        if (var->objectName().contains("HIG") || var->objectName().contains("LOW")){
+            var->setChecked(Setting.value(var->objectName()).toBool());
+        }
+    }
+    Setting.endGroup();
 }
 
 RaspberryPiGPIOUI::~RaspberryPiGPIOUI()
 {
+    QSettings Setting("./RaspberryPiGPIO/GPIO_Note.ini",QSettings::IniFormat);
+    Setting.beginGroup("GPIO_Note");
+    foreach(auto var,this->findChildren<QLineEdit *>()){
+        Setting.setValue(var->objectName(),var->text());
+    }
+    Setting.endGroup();
+    Setting.beginGroup("GPIO_Mode");
+    foreach(auto var,this->findChildren<QRadioButton *>()){
+        Setting.setValue(var->objectName(),var->isChecked());
+    }
+    Setting.endGroup();
+    Setting.beginGroup("GPIO_Level");
+    foreach(auto var,this->findChildren<QRadioButton *>()){
+        Setting.setValue(var->objectName(),var->isChecked());
+    }
+    Setting.endGroup();
     delete ui;
 }
 
