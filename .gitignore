@@ -28,6 +28,8 @@
 
 #Temporary folder
 tmp/
+release/
+debug/
 
 # Executables
 *.exe
@@ -45,3 +47,5 @@ tmp/
 *.vcxproj
 *.filters
 *.opendb
+*.db-wal
+*.db-shm
