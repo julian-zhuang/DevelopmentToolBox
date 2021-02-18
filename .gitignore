@@ -30,6 +30,7 @@
 tmp/
 release/
 debug/
+.vs/
 
 # Executables
 *.exe
@@ -49,3 +50,4 @@ debug/
 *.opendb
 *.db-wal
 *.db-shm
+*.exp
